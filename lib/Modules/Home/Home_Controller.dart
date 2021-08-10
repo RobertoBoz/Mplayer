@@ -1,9 +1,11 @@
 import 'package:get/get.dart';
+import 'package:flutter/services.dart';
 
 import 'package:mplayer/Data/Models/VideoModel.dart';
-
 import 'package:mplayer/Data/Providers/Remote/ApiServiceVideoPlayer.dart';
 import 'package:mplayer/Data/Repositories/ApiRepositoryVideoPlayer.dart';
+
+import 'package:mplayer/Modules/Home/VideoPlayer/MediaPlayerCotroller.dart';
 
 
 
@@ -17,8 +19,17 @@ class HomeController extends GetxController{
 
   ApiServiceVideoPlayer _api = new ApiServiceVideoPlayer();
   List<Video> _videoList = [];
-
+  
   List<Video> get videoList => _videoList;
+
+   MediaPlayerController _mplayerController =  MediaPlayerController();
+  // ignore: unnecessary_getters_setters
+  MediaPlayerController get  mplayerController => _mplayerController;
+
+  // ignore: unnecessary_getters_setters
+  // set mplayerController (MediaPlayerController  controller) {
+  //   _mplayerController = controller;
+  // }
 
   
 
@@ -26,8 +37,10 @@ class HomeController extends GetxController{
 
   @override
   void onInit() {
-    super.onInit();
-     
+    super.onInit();      
+
+
+     _mplayerController.loadVideo(url: 'https://movietrailers.apple.com/movies/paramount/the-spongebob-movie-sponge-on-the-run/the-spongebob-movie-sponge-on-the-run-big-game_h720p.mov');
     
   }
 
@@ -41,8 +54,9 @@ class HomeController extends GetxController{
   @override
   void onReady() {
    
-
+   
     loadvideolist();
+    
 
    
     super.onReady();
@@ -55,6 +69,17 @@ class HomeController extends GetxController{
     _videoList = await _playeRepository.getAllVideos();
     update();
     
+  }
+
+  void loadnewVideo(String url) async {
+
+    _mplayerController.dispose();
+    _mplayerController.onClose();
+    _mplayerController = MediaPlayerController();
+    print(url);
+    mplayerController.loadVideo(url: url);
+    update();
+
   }
 
 

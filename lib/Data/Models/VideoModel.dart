@@ -19,10 +19,10 @@ class Video {
   String title;
 
   factory Video.fromJson(Map<String, dynamic> json) => Video(
-    description: json["description"],
+    description: json["description"].toString(),
     sources: List<String>.from(json["sources"].map((x) => x)),
-    thumb: json["thumb"],
-    title: json["title"],
+    thumb: json["thumb"].toString(),
+    title: json["title"].toString(),
   );
 
   Map<String, dynamic> toJson() => {
